@@ -15,7 +15,7 @@ export default function Header() {
         <header className="sticky top-0 z-10 bg-white">
             <Head> {<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>}</Head>
             <nav className="relative">
-                <div className="max-w-screen-xl flex sm:flex-col lg:flex-row sm:gap-5 flex-wrap items-center justify-between mx-auto px-14 py-7 sm:p-14">
+                <div className="max-w-screen-xl flex sm:flex-col lg:flex-row sm:gap-5 flex-wrap items-center justify-between mx-auto px-14 py-7 sm:p-14 xl:p-16">
                     <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
                         <h1 className="text-center text-black text-4xl sm:text3xl font-bold font-['Plus Jakarta Sans']">Fatur</h1>
                     </Link>
