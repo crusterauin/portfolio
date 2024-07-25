@@ -1,0 +1,92 @@
+Untuk membuat fitur seperti yang Anda inginkan, Anda bisa menggunakan state management untuk mengelola kategori yang dipilih oleh user, dan kemudian memanggil data dari API sesuai dengan kategori tersebut. Berikut adalah langkah-langkah umumnya:
+
+1. **State Management**: Gunakan state untuk menyimpan kategori yang dipilih.
+2. **Fetch Data dari API**: Panggil data dari API berdasarkan kategori yang dipilih.
+3. **Render Components**: Render komponen `WorksCard` berdasarkan data yang diterima dari API.
+
+Saya akan memberikan contoh implementasi dasar menggunakan React dan Hooks untuk mengelola state, serta menggunakan `useEffect` untuk memanggil API.
+
+### 1. Mengelola State Kategori yang Dipilih
+
+Pertama, kita perlu mengelola state untuk kategori yang dipilih. Gunakan `useState` dari React.
+
+### 2. Memanggil Data dari API
+
+Gunakan `useEffect` untuk memanggil data dari API ketika kategori berubah.
+
+### 3. Render Components Berdasarkan Data
+
+Render komponen `WorksCard` berdasarkan data yang diterima dari API.
+
+Berikut adalah contoh kodenya:
+
+```javascript
+import React, { useState, useEffect } from 'react';
+import WorksCard from "@/components/WorksCard";
+
+export default function Works() {
+    const [category, setCategory] = useState('Mobile Apps');
+    const [projects, setProjects] = useState([]);
+
+    useEffect(() => {
+        // Fungsi untuk memanggil data dari API berdasarkan kategori
+        const fetchProjects = async () => {
+            try {
+                const response = await fetch(`/api/projects?category=${category}`);
+                const data = await response.json();
+                setProjects(data);
+            } catch (error) {
+                console.error('Error fetching projects:', error);
+            }
+        };
+
+        fetchProjects();
+    }, [category]);
+
+    return (
+        <main className="min-h-full relative">
+            <section className="flex flex-col items-center">
+                <div className="w-full max-w-5xl flex flex-row justify-center items-center gap-7 my-7">
+                    <h1 className={`text-black text-sm font-regular font-['Plus Jakarta Sans'] cursor-pointer ${category === 'Mobile Apps' ? 'font-bold' : ''}`} 
+                        onClick={() => setCategory('Mobile Apps')}>Mobile Apps</h1>
+                    <h1 className={`text-black text-sm font-regular font-['Plus Jakarta Sans'] cursor-pointer ${category === 'Web Apps' ? 'font-bold' : ''}`} 
+                        onClick={() => setCategory('Web Apps')}>Web Apps</h1>
+                    <h1 className={`text-black text-sm font-regular font-['Plus Jakarta Sans'] cursor-pointer ${category === 'Graphic Design' ? 'font-bold' : ''}`} 
+                        onClick={() => setCategory('Graphic Design')}>Graphic Design</h1>
+                </div>
+                <div className="w-full max-w-5xl flex flex-col items-center">
+                    {projects.map((project) => (
+                        <WorksCard 
+                            key={project.id} 
+                            projectName={project.projectName} 
+                            projectTech={project.projectTech} 
+                        />
+                    ))}
+                </div>
+            </section>
+        </main>
+    );
+}
+```
+
+### Penjelasan:
+
+1. **State Management**: Menggunakan `useState` untuk menyimpan kategori yang dipilih (`category`) dan data proyek (`projects`).
+2. **Memanggil Data dari API**: Menggunakan `useEffect` untuk memanggil API setiap kali kategori berubah. Data dari API disimpan dalam state `projects`.
+3. **Render Components**: Komponen `WorksCard` dirender berdasarkan data yang ada di `projects`.
+
+Pastikan endpoint API `/api/projects` dapat menerima parameter kategori dan mengembalikan data yang sesuai. Misalnya:
+
+```javascript
+// Contoh struktur data yang dikembalikan API
+[
+    {
+        id: 1,
+        projectName: "MyAnimeList",
+        projectTech: "Android"
+    },
+    // proyek lainnya
+]
+```
+
+Dengan setup ini, ketika Anda mengklik salah satu kategori, state `category` akan berubah, `useEffect` akan terpanggil kembali dan mengambil data dari API yang sesuai dengan kategori yang dipilih, lalu merender `WorksCard` berdasarkan data tersebut.
